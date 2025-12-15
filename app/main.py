@@ -13,5 +13,5 @@ async def create_tables():
 
 
 
-app.include_router(books.router, prefix="/books", tags=["Books"])
+app.include_router(books.router, prefix="/books", tags=["Bookssss"])
 
