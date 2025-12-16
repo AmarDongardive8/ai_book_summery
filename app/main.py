@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.api.routers import books
+from app.api.routers import books,auth
 from app.db.session import engine
 from app.db.session import Base
 
@@ -11,7 +11,7 @@ async def create_tables():
         await conn.run_sync(Base.metadata.create_all)
 
 
+app.include_router(auth.router)
 
-
-app.include_router(books.router, prefix="/books", tags=["Bookssss"])
+app.include_router(books.router, prefix="/books", tags=["Bookss"])
 
