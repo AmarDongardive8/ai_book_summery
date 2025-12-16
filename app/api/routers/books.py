@@ -4,16 +4,17 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.session import get_db
 from app.schemas.book_schema import BookCreate, BookResponse,BookUpdate
 from app.services.book_service import BookService
+from app.core.dependencies import require_admin, get_current_user
 
 router = APIRouter()
 book_service = BookService()
 
-@router.post("/", response_model=BookResponse)
+@router.post("/", response_model=BookResponse,dependencies=[Depends(get_current_user)])
 async def create_book(book: BookCreate,db: AsyncSession = Depends(get_db)):
     return await book_service.create_book(db, book)
 
 
-@router.get("/", response_model=List[BookResponse])
+@router.get("/", response_model=List[BookResponse],dependencies=[Depends(require_admin)])
 async def get_books(db: AsyncSession = Depends(get_db)):
     return await book_service.get_all_books(db)
 
