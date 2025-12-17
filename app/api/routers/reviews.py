@@ -7,6 +7,10 @@ from app.services.review_service import ReviewService
 from app.core.dependencies import get_current_user
 from app.services.book_service import  BookService
 from app.core.dependencies import require_admin, get_current_user
+from app.schemas.recommendation_schema import PreferenceRequest
+from app.services.recommendation_service import RecommendationService
+
+service = RecommendationService()
 
 router = APIRouter(prefix="/books", tags=["Reviews"])
 review_service = ReviewService()
@@ -24,8 +28,8 @@ async def get_reviews(
     return await review_service.get_reviews_by_book(db, book_id)
 
 
-@router.get("/{book_id}/summary")
-async def book_summary(book_id: int, db: AsyncSession = Depends(get_db),dependencies=[Depends(get_current_user)]):
+@router.get("/{book_id}/summary",dependencies=[Depends(get_current_user)])
+async def book_summary(book_id: int, db: AsyncSession = Depends(get_db)):
     book = await book_service.get_book_by_id(db, book_id)
     if not book:
         raise HTTPException(status_code=404, detail="Book not found")
@@ -38,3 +42,7 @@ async def book_summary(book_id: int, db: AsyncSession = Depends(get_db),dependen
         "summary": book.summary,
         "ratings": rating_data
     }
+# ,dependencies = [Depends(get_current_user)]
+@router.post("/recommendations")
+async def get_recommendations(data: PreferenceRequest,db: AsyncSession = Depends(get_db)):
+    return await service.recommend_books(db, data.preference)

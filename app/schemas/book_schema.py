@@ -22,6 +22,7 @@ class BookResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
+
 class BookUpdate(BaseModel):
     title: Optional[str] = None
     author: Optional[str] = None
