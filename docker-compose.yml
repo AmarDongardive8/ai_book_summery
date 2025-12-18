@@ -28,7 +28,7 @@ service:
 
     
 network:
-  book-network
+  book-network:
 
 volume:
-  book-data
+  book-data:
