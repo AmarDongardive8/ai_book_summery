@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field, ConfigDict
 from typing import Optional
 
 class ReviewCreate(BaseModel):
-    review_text: str = Field(..., min_length=30)
+    review_text: str = Field(..., min_length=5)
     rating: int = Field(..., ge=1, le=5)
 
 class ReviewResponse(BaseModel):

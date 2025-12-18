@@ -22,7 +22,7 @@ class BookService:
             summary=summary
         )
 
-        db.add(book)
+        await db.add(book)
         await db.commit()
         await db.refresh(book)
         return book
@@ -43,7 +43,8 @@ class BookService:
         if not book:
             return None
 
-        for field, value in data.dict(exclude_unset=True).items():
+        # for field, value in data.dict(exclude_unset=True).items():
+        for field, value in data.model_dump(exclude_unset=True).items():
             setattr(book, field, value)
 
         await db.commit()
