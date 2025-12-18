@@ -42,7 +42,7 @@ async def book_summary(book_id: int, db: AsyncSession = Depends(get_db)):
         "summary": book.summary,
         "ratings": rating_data
     }
-# ,dependencies = [Depends(get_current_user)]
+
 @router.post("/recommendations")
 async def get_recommendations(data: PreferenceRequest,db: AsyncSession = Depends(get_db)):
     return await service.recommend_books(db, data.preference)
