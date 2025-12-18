@@ -4,6 +4,7 @@ from sqlalchemy.orm import declarative_base
 import os
 
 
+
 # SQLALCHEMY_DB_URL =  "sqlite:///./sql_app.db"
 # SQLALCHEMY_DB_URL = "sqlite+aiosqlite:///./sql_app.db"
 
