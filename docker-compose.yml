@@ -13,6 +13,7 @@ services:
       - db
     networks:
       - book-network
+    restart: always
 
   db:
     image: postgres:15
@@ -27,6 +28,12 @@ services:
       - db_data:/var/lib/postgresql/data
     networks:
       - book-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -p 5432 -U amar -d book_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
 networks:
   book-network:
