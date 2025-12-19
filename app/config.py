@@ -12,7 +12,9 @@ class Settings(BaseSettings):
         f"{os.getenv('POSTGRES_DB')}"
     )
 
-    class Config:
-        env_file = ".env"
+    model_config  = {
+        "env_file" : ".env",
+        "extra": "allow",
+    }
 
 settings = Settings()
