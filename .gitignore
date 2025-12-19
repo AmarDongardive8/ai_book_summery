@@ -2,6 +2,14 @@
 __pycache__/
 *.py[cod]
 
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+env/
+app/__pycache__/
+app/service/__pycache__/
+
 # Virtual environment
 env/
 venv/
