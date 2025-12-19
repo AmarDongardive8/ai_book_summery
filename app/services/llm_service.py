@@ -25,11 +25,7 @@ class LLMService:
                 Use the format: "Title: summary" without extra spaces. 
                 {Title}
                 {Author}
-<<<<<<< HEAD
-                {Content}
-=======
                 {Content} 
->>>>>>> bf6d81f65e764bc51eda2a5ecaf880e821b80f96
                 """,
             input_variables=['title','author','content']
         )

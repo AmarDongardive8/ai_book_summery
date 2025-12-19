@@ -60,7 +60,6 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(),db: AsyncSessio
         )
 
     token = create_access_token({"sub": str(user.id),"role": user.role})
-
     return {
         "access_token": token,
         "token_type": "bearer"
