@@ -39,7 +39,7 @@ git clone <your-repo-url>
 cd book_ai_backend
 
 2. **Create .env file**
-
+- OPENAI_API_KEY= ---
 - POSTGRES_USER=-----
 - POSTGRES_PASSWORD=-----
 - POSTGRES_DB=---
