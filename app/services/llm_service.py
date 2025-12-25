@@ -4,21 +4,18 @@ from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage
 from langchain_core.prompts import PromptTemplate
 from dotenv import load_dotenv
+from app.config import settings
+# from langchain
 import os
 
 load_dotenv()
 
 class LLMService:
     def __init__(self):
-        # self.llm = ChatOllama(
-        #     model="llama3",
-        #     base_url="http://localhost:11434",
-        #     temperature=0.5,
-        # )
-
-        self.llm = ChatOpenAI(model="gpt-4o-mini",temperature=1.5)
-
-
+        
+        # self.llm = ChatOpenAI(model="gpt-4o-mini",temperature=1.5)
+        self.llm = ChatOpenAI(model=settings.OPENAI_MODEL,max_output_tokens=settings.OPENAI_MAX_TOKENS,temperature=1.5)
+        
         self.template = PromptTemplate(
             template="""
                 Generate a short, clear summary for the following book.
@@ -31,7 +28,7 @@ class LLMService:
         )
 
     async def generate_summary(self, title: str, author: str, content: str) -> str:
-        chain = self.template | self.llm
+        chain = self.template | self.llm 
         result = chain.invoke({'Title':title,"Author":author,"Content":content})
         return result.content.strip()
     

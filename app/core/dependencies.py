@@ -6,7 +6,8 @@ from sqlalchemy import select
 
 from app.db.session import get_db
 from app.model.user import User
-from app.core.security import SECRET_KEY, ALGORITHM
+from app.core.security import ALGORITHM
+from app.config import settings
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
@@ -18,7 +19,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme),db: AsyncSession 
     )
     try:
         print("token received:", token)
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[ALGORITHM])
         user_id = int(payload.get("sub"))
         if user_id is None:
             raise credentials_exception
