@@ -26,7 +26,7 @@ class BookService:
                 summary=summary
             )
 
-            await db.add(book)
+            db.add(book)
             await db.commit()
             await db.refresh(book)
             return book
@@ -40,7 +40,7 @@ class BookService:
         except Exception as err:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="Failed to create book"
+                detail=str(err)
             ) from err
     
     async def get_all_books(self, db):

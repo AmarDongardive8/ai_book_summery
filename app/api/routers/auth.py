@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException,status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from fastapi.security import OAuth2PasswordRequestForm
-
+from sqlalchemy.exc import SQLAlchemyError
 from app.db.session import get_db
 from app.model.user import User
 from app.schemas.user_schema import UserCreate, UserLogin,AdminUserCreate
@@ -84,7 +84,6 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(),db: AsyncSessio
             "token_type": "bearer"
         }
     except SQLAlchemyError as db_err:
-        logger.exception("Database error during login")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Login failed"

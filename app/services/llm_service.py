@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from app.config import settings
 # from langchain
 import os
+from langchain_core.output_parsers import StrOutputParser
 
 load_dotenv()
 
@@ -14,7 +15,7 @@ class LLMService:
     def __init__(self):
         
         # self.llm = ChatOpenAI(model="gpt-4o-mini",temperature=1.5)
-        self.llm = ChatOpenAI(model=settings.OPENAI_MODEL,max_output_tokens=settings.OPENAI_MAX_TOKENS,temperature=1.5)
+        self.llm = ChatOpenAI(model=settings.OPENAI_MODEL,max_tokens=settings.OPENAI_MAX_TOKEN,temperature=1.5)
         
         self.template = PromptTemplate(
             template="""
@@ -26,11 +27,12 @@ class LLMService:
                 """,
             input_variables=['title','author','content']
         )
+        self.parser = StrOutputParser()
 
     async def generate_summary(self, title: str, author: str, content: str) -> str:
-        chain = self.template | self.llm 
+        chain = self.template | self.llm | self.parser
         result = chain.invoke({'Title':title,"Author":author,"Content":content})
-        return result.content.strip()
+        return result.strip()
     
 
 class LLMRecomndationService(LLMService):
@@ -57,10 +59,12 @@ class LLMRecomndationService(LLMService):
             """,
                 input_variables=['preference','all_genres_str']
             )
+            self.parser = StrOutputParser()
 
     async def extract_genre(self, preference: str,all_genres_str: str) -> str:
-        chain = self.template | self.llm
+        chain = self.template | self.llm | self.parser
         result = chain.invoke({'preference':preference,"all_genres_str":all_genres_str})
-        return result.content.strip()
+        return result.strip()
+
 
        

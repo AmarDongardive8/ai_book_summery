@@ -4,11 +4,9 @@ __pycache__/
 
 # Python
 __pycache__/
-*.py[cod]
+*.pyc
 *.pyo
-env/
-app/__pycache__/
-app/service/__pycache__/
+*.pyd
 
 # Virtual environment
 env/
